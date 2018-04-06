@@ -5,6 +5,7 @@ Django==2.0.4
 django-cors-headers==2.2.0
 django-extensions==2.0.6
 django-fe-core==0.3.0
+-e git+https://github.com/fernandoe/django-fe-jwt.git@release/0.0.1#egg=django_fe_jwt
 djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
 factory-boy==2.10.0
