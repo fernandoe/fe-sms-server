@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 from rest_framework_jwt.settings import api_settings
 from fe_core.factories import UserFactory, EntityFactory
 
-from fe_sms.models import AWSMensagem, Mensagem
+from fe_sms.models import Telefone, Mensagem, AWSMensagem
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -36,9 +36,14 @@ class TestEnviarMensagemAPIView(APITestCase):
         # self.assertEqual(endereco.usuario, self.user)
 
     def test_create_model(self):
-        assert 0 == AWSMensagem.objects.all().count()
+        assert 0 == Telefone.objects.all().count()
         assert 0 == Mensagem.objects.all().count()
-        self.client.post(reverse('enviar-mensagem'), {})
-        assert 1 == AWSMensagem.objects.all().count()
+        assert 0 == AWSMensagem.objects.all().count()
+        self.client.post(reverse('enviar-mensagem'), {
+            'codigo': '51',
+            'numero': '992832466',
+        })
+        assert 1 == Telefone.objects.all().count()
         assert 1 == Mensagem.objects.all().count()
+        assert 1 == AWSMensagem.objects.all().count()
 
