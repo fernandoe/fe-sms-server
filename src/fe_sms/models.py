@@ -9,7 +9,7 @@ class Telefone(UUIDModel):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     entidade = models.ForeignKey(Entity, on_delete=models.CASCADE, null=True, blank=True)
     pais = models.CharField(max_length=10, default="+55")
-    codigo = models.SmallIntegerField()
+    ddd = models.SmallIntegerField()
     numero = models.CharField(max_length=10)
 
 
