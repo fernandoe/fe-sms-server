@@ -2,14 +2,14 @@ from unittest import TestCase
 
 from botocore.stub import Stubber
 
-from fe_sms.services.sms_client_aws import SMSClient
+from fe_sms.services.sms_service_aws import SMSService
 from fe_sms.tests.responses import RESPONSE1
 
 
-class TestSMSClient(TestCase):
+class TestSMSService(TestCase):
 
     def test_send_message(self):
-        client = SMSClient()
+        client = SMSService()
         stubber = Stubber(client.sns)
         stubber.add_response("publish", RESPONSE1)
         with stubber:

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'fe_core',
+    'fe_sms',
 ]
 
 MIDDLEWARE = [

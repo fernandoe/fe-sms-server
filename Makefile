@@ -3,3 +3,6 @@ docker-build:
 
 test:
 	cd src; pytest -s
+
+makemigrations:
+	cd src; python manage.py makemigrations
