@@ -26,12 +26,8 @@ class TestEnviarMensagemAPIView(APITestCase):
 
     def test_response_200(self):
         response = self.client.post(reverse('enviar-mensagem'), {
-            # 'logradouro': 'a',
-            # 'numero': 1,
-            # 'estado': 'RS',
-            # 'cidade': 'Porto Alegre',
-            # 'bairro': 'b',
-            # 'cep': '91060280'
+            'codigo': '51',
+            'numero': '992832466',
         })
         assert status.HTTP_200_OK == response.status_code
         # self.assertEqual(response.status_code, )
@@ -40,9 +36,9 @@ class TestEnviarMensagemAPIView(APITestCase):
         # self.assertEqual(endereco.usuario, self.user)
 
     def test_create_model(self):
-        assert 0 == AWSMensagem.object.all().count()
-        assert 0 == Mensagem.object.all().count()
+        assert 0 == AWSMensagem.objects.all().count()
+        assert 0 == Mensagem.objects.all().count()
         self.client.post(reverse('enviar-mensagem'), {})
-        assert 1 == AWSMensagem.object.all().count()
-        assert 1 == Mensagem.object.all().count()
+        assert 1 == AWSMensagem.objects.all().count()
+        assert 1 == Mensagem.objects.all().count()
 

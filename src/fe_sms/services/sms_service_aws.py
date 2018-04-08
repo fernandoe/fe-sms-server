@@ -1,6 +1,6 @@
 import boto3
 
-from fe_sms.models import AWSMensagem
+from fe_sms.models import AWSMensagem, Telefone
 
 
 class SMSService(object):
@@ -8,10 +8,9 @@ class SMSService(object):
         session = boto3.Session()
         self.sns = session.client('sns')
 
-    def create_message(self):
-        AWSMensagem.objects.create(
-
-        )
+    def create_message(self, usuario, codigo, numero):
+        telefone = Telefone.objects.create(usuario=usuario, codigo=codigo, numero=numero)
+        AWSMensagem.objects.create(usuario=usuario, telefone=telefone)
 
     def send_message(self):
         response = self.sns.publish(PhoneNumber='+5551992832466', Message='Teste de mensagem')

@@ -5,4 +5,4 @@ test:
 	cd src; pytest -s
 
 makemigrations:
-	cd src; python manage.py makemigrations
+	cd src; python manage.py makemigrations --settings server.settings.test

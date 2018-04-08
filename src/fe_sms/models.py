@@ -26,7 +26,7 @@ class Mensagem(UUIDModel):
 
 
 class AWSMensagem(Mensagem):
-    message_id = models.UUIDField(blank=False, null=False)
-    request_id = models.UUIDField(blank=False, null=False)
-    http_status_code = models.SmallIntegerField()
-    retry_attempts = models.SmallIntegerField()
+    message_identifier = models.UUIDField(blank=True, null=True)
+    request_identifier = models.UUIDField(blank=True, null=True)
+    http_status_code = models.SmallIntegerField(blank=True, null=True)
+    retry_attempts = models.SmallIntegerField(blank=True, null=True)
