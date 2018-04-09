@@ -2,17 +2,24 @@ language: generic
 sudo: required
 services:
 - docker
+
 env:
   global:
   - secure: RS1BBSjBrLvfyOyO2MRhIfiyvNoMwJLc1W7ce1B/C6/X4lcaRXgVCJ2M5KQUVb/hy72nOjERJEimmSNWc4GOn4ocvH92RA/6QtGcrQWoksvuFRVLGNub6WedwRUh7Abol1AspRALhBTjs2EMszrfkaT3nQKjChGg+efkDvkaCh/I/2f/atGJaOXj3QhUakftAAYI4gm+53VF0bhO1YyzojVkd5V0iZQb00hB3M19E8fUwpTPaHHcarcOUujI9B7uCTjawkV3X0L3OWuT/yNSf5Vm4S9R/rLnkJKW4VKJOIMkNxkBL+R0QhtapUk1f5P6I8Pvwm5gxnhwg7KGM4Vu2gyb9dNbFuhLbRh7CTEpVlHfnOaLdg91F95zYHLJYj/JgL6G00RqZwazZCgOAG45qTvI5/WmrtQr2y88Rb1hRC3iZu2ugUrD9JsDDD8gfVQZ2JGfy9w+f+nZjiXOkimQc6ADqnbtKP2CU9gYNQbPQRB5xxi7gFZ6rEWhLkhHWWZwt+1XdCw3M+jLR1MVh3ohEftAz6XFWjwQWE3DnqRzkiYnQmxO1hgyQNqkLF4lQJI/PSRTk8Xq8we/QPWmpvfhwPtrFy60cRhWbclbUSYKrwi1telaCECSKCTbrAIbLzMOszymXa6/PYKvJRjO1/F6iZm0BLz9dJPR/EKCQ8kWxBs=
   - secure: OcG4rz3LqLe6swIWAzqQFB2/hwEgDdR3C9Q274GNp0w1DicFnVZzHTHhT6UuWLLnIybCz2SMS0bvbDlhaGx9L864JDcdKYcX8N61v9YPWqIYRkn5sYSFIoow8zRj22GKrKXJuzIfS4OxA06Ecy7uBuZMz2TBmwPKj4lNws4PzyGZLqRWlAy9uAzudMHDpT0eM2zg+SLLoabUVuEXWqvp33xUjk/BvEExpFn/Hya44VhX6QxXTf56qYjGbi5hZO6H4mlB5slgIJyw6KkEA7UJ7Kt3C94ob2FaIo0bq+hMIhjPkOYCMJWhlvbVS1pfayZ3E5LI/ht/w6DOO8HFgkKkkwdrwg30xgd/BYCI5OZOeWX3wiJ4ibv8+qhOZyWsdOFG//uZSo3wp3MDJcqkjgwIhYFPj6w+geEu6jmmw2O3lhaKmyvRPdhwrNpBxhM5AvGWytpCtS6XJn8nIbb8gw9PAZtbI+QCTUejxRz/VacF4MtmdlshuGgTBXAvGLytNVJp4DzepD3L/MgRpXf91vWPcYVs9PgJ4+OgRcXFwkst/yEMAxWQGnTzwaTkbvfyEn2ObbcUKX15HNa0ZKOSuUVEH0BGs1XJoMtXS054vWH9KwcnzUyy8cZb97nMkIp6olP7Y5JB7bz7c5uk3rtHBeJaAE3v2bWbtnAZqWaSm+3tTf0=
   - secure: P2mFM5Dnn5/VYbplnjfQT8/kuFXQn7c4ogT/syuxXoOF01LNLYAt0NQgDSKLbpSj9CUn0RwXhutOTWZkR/SXCUDpjlRuAWyUihOfvCEvpikk4hk04FoF/es5oe+wk4X8cnqIb1s8vvEcsVf0aY2jF+rbXuOKWJmfzH/im5NcUQ6/NrkWIH/6NNPg1wtsrePWotlGWgR2w37vpIqLIlB41Zg79k+IeKFlXevHIsAlBaM99aup74mK3NK8HEMCgTJX3qGVmnf50gq9i2+w70Y7QL4JHfwKlQdAzoOWEgBE+3MmsACAjE+Ap2cFqNNKZvw9xBLsRoGcadrRUFE5muPaqGfFrXXN5Cx2RoQHP3QkUFTBiVV/cA7SbH69NhAWxnor8blV+hFdf+1NGNoZ7nlAXk5uHxPCoEwHhGTkSBiP4hrjUw47rBsict6jTuPxb2E8hdqxgP+gqhvkXQXG4kSO/88Il8ltLDeJ2bBaxWav3UIWSfEWNbxt683B4k1znPthY4vtz/J6MSdbwd3i6QfuPJBUWq8Njx1LODP7iPIImMm/Ip8j6cD8DKfG3UKfZXWuAWC5pMdlOuJAIScx7ggJVUdtJT3204R/BeZtmNVueUp3+udnpJhF7vFcevzsq4nbV7HqRp82n1gewkUIYuEOhxUkR6OrYjiikZ5zvMpT/s8=
   - COMMIT=${TRAVIS_COMMIT::8}
+
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=fernandoe/fe-sms-server
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -f Dockerfile -t $REPO:$COMMIT .
   - docker tag $REPO:$COMMIT $REPO:$TAG
-#  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   - docker push $REPO
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+  on:
+    branch: master
