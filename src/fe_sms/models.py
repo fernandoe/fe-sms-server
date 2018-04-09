@@ -12,6 +12,9 @@ class Telefone(UUIDModel):
     ddd = models.SmallIntegerField()
     numero = models.CharField(max_length=10)
 
+    def __str__(self):
+        return "%s (%s) %s" % (self.pais, self.ddd, self.numero)
+
 
 class Mensagem(UUIDModel):
     STATUS_CRIADO = "criado"

@@ -1,6 +1,6 @@
 import boto3
 
-from fe_sms.models import AWSMensagem, Telefone
+from fe_sms.models import AWSMensagem
 
 
 class SMSService(object):
@@ -8,7 +8,8 @@ class SMSService(object):
         session = boto3.Session()
         self.sns = session.client('sns')
 
-    def create_message(self, usuario, telefone):
+    @staticmethod
+    def create_message(usuario, telefone):
         return AWSMensagem.objects.create(usuario=usuario, telefone=telefone)
 
     def send_message(self):
