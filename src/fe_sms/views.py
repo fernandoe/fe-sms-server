@@ -1,17 +1,23 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from fe_sms.serializers import TelefoneModelSerializer
 from fe_sms.services.sms_service_aws import SMSService
 
 
 class EnviarMensagemAPIView(APIView):
 
     def post(self, request, format=None):
-        sms_service = SMSService()
-
-        usuario = request.user
-        codigo = request.POST.get('codigo', '51')
-        numero = request.POST.get('numero', '992832466')
-
-        response = sms_service.create_message(usuario, codigo, numero)
-        return Response({'OK': 'OK'})
+        serializer = TelefoneModelSerializer(data=request.data)
+        if serializer.is_valid():
+            user = self.request.user
+            entity = user.entity
+            sms_service = SMSService()
+            telefone = serializer.save(usuario=user, entidade=entity)
+            message = sms_service.create_message(user, telefone)
+            data = {
+                'uuid': str(message.uuid)
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

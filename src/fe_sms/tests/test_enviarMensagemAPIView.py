@@ -1,13 +1,18 @@
 from django.urls import reverse
+from fe_core.factories import UserFactory, EntityFactory
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_jwt.settings import api_settings
-from fe_core.factories import UserFactory, EntityFactory
 
 from fe_sms.models import Telefone, Mensagem, AWSMensagem
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+example_data_1 = {
+    'ddd': '51',
+    'numero': '992832466',
+}
 
 
 class TestEnviarMensagemAPIView(APITestCase):
@@ -24,26 +29,26 @@ class TestEnviarMensagemAPIView(APITestCase):
 
         self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + user_token)
 
-    def test_response_200(self):
-        response = self.client.post(reverse('enviar-mensagem'), {
-            'codigo': '51',
-            'numero': '992832466',
-        })
-        assert status.HTTP_200_OK == response.status_code
-        # self.assertEqual(response.status_code, )
-        # endereco = Endereco.objects.get(uuid=response.data['uuid'])
-        # self.assertIsNone(endereco.entidade)
-        # self.assertEqual(endereco.usuario, self.user)
+    def test_response_201(self):
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+        assert status.HTTP_201_CREATED == response.status_code
 
     def test_create_model(self):
         assert 0 == Telefone.objects.all().count()
         assert 0 == Mensagem.objects.all().count()
         assert 0 == AWSMensagem.objects.all().count()
-        self.client.post(reverse('enviar-mensagem'), {
-            'codigo': '51',
-            'numero': '992832466',
-        })
+        self.client.post(reverse('enviar-mensagem'), example_data_1)
         assert 1 == Telefone.objects.all().count()
         assert 1 == Mensagem.objects.all().count()
         assert 1 == AWSMensagem.objects.all().count()
 
+    def test_response(self):
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+        m = Mensagem.objects.first()
+        assert response.data['uuid'] == str(m.uuid)
+
+    def test_create_message_and_awsmessage(self):
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+        uuid = response.data['uuid']
+        assert Mensagem.objects.get(pk=uuid)
+        assert AWSMensagem.objects.get(pk=uuid)
