@@ -52,3 +52,34 @@ class TestEnviarMensagemAPIView(APITestCase):
         uuid = response.data['uuid']
         assert Mensagem.objects.get(pk=uuid)
         assert AWSMensagem.objects.get(pk=uuid)
+
+    def test_user_and_entity_into_objects(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.user_with_entity_token)
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+
+        obj = Mensagem.objects.get(pk=response.data['uuid'])
+        assert self.entity == obj.entidade
+        assert self.user_with_entity == obj.usuario
+
+        obj = AWSMensagem.objects.get(pk=response.data['uuid'])
+        assert self.entity == obj.entidade
+        assert self.user_with_entity == obj.usuario
+
+        obj = Telefone.objects.first()
+        assert self.entity == obj.entidade
+        assert self.user_with_entity == obj.usuario
+
+    def test_only_user_into_objects(self):
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+
+        obj = Mensagem.objects.get(pk=response.data['uuid'])
+        assert not obj.entidade
+        assert self.user == obj.usuario
+
+        obj = AWSMensagem.objects.get(pk=response.data['uuid'])
+        assert not obj.entidade
+        assert self.user == obj.usuario
+
+        obj = Telefone.objects.first()
+        assert not obj.entidade
+        assert self.user == obj.usuario

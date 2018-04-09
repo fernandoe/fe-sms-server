@@ -14,7 +14,7 @@ class EnviarMensagemAPIView(APIView):
             user = self.request.user
             entity = user.entity
             telefone = serializer.save(usuario=user, entidade=entity)
-            message = SMSService.create_message(user, telefone)
+            message = SMSService.create_message(user,  telefone)
             data = {
                 'uuid': str(message.uuid)
             }

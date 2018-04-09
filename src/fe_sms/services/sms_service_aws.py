@@ -10,7 +10,7 @@ class SMSService(object):
 
     @staticmethod
     def create_message(usuario, telefone):
-        return AWSMensagem.objects.create(usuario=usuario, telefone=telefone)
+        return AWSMensagem.objects.create(usuario=usuario, entidade=usuario.entity, telefone=telefone)
 
     def send_message(self):
         response = self.sns.publish(PhoneNumber='+5551992832466', Message='Teste de mensagem')
