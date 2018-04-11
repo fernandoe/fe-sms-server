@@ -1,6 +1,9 @@
 build:
 	docker build -t fernandoe/fe-sms-server:local .
 
+build-no-cache:
+	docker build --no-cache -t fernandoe/fe-sms-server:local .
+
 docker-build:
 	docker build -t fernandoe/fe-sms-server:local .
 
