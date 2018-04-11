@@ -1,5 +1,8 @@
 # fe-sms-server
 
+[![Build Status](https://travis-ci.org/fernandoe/fe-sms-server.svg?branch=feature-enviar-mensagem)](https://travis-ci.org/fernandoe/fe-sms-server)
+
+
 
 ## AWS
 
