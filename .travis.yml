@@ -14,8 +14,8 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=fernandoe/fe-sms-server
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -f Dockerfile -t $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker build -f Dockerfile -t $REPO:$TAG .
+  - docker tag $REPO:$TAG $REPO:$COMMIT
   - docker push $REPO
 
 deploy:
