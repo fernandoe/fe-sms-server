@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from fe_core.models import UUIDModel, Entity
 
-
-
 User = get_user_model()
 
 
@@ -16,6 +14,9 @@ class Telefone(UUIDModel):
 
     def __str__(self):
         return "%s (%s) %s" % (self.pais, self.ddd, self.numero)
+
+    def get_telefone(self):
+        return "%s%s%s" % (self.pais, self.ddd, self.numero)
 
 
 class Mensagem(UUIDModel):
