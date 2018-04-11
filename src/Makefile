@@ -5,3 +5,6 @@ sendsms:
 
 migrate:
 	python manage.py migrate --settings=$(DJANGO_SETTINGS_MODULE)
+
+makemigrations:
+	python manage.py makemigrations --settings=$(DJANGO_SETTINGS_MODULE)
