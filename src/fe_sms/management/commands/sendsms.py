@@ -7,6 +7,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         mensagens = Mensagem.objects.filter(status=Mensagem.STATUS_CRIADO)
-        for m in mensagens:
-            self.stdout.write(self.style.SUCCESS(f'Enviando SMS UUID={m.uuid}'))
-
+        if mensagens.count() == 0:
+            self.stdout.write(self.style.SUCCESS('Não existem mensagens para serem enviadas.'))
+        else:
+            for m in mensagens:
+                self.stdout.write(self.style.SUCCESS(f'Enviando SMS UUID={m.uuid}'))
