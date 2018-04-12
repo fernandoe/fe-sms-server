@@ -25,9 +25,9 @@ after_success:
   - docker push $TRAVIS_REPO_SLUG
 
 before_deploy:
-  - .script/az login --service-principal --username $AZURE_APP_ID --password $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-  - .script/az aks kubernetes install-cli
-  - .script/az aks kubernetes get-credentials --resource-group=$AZURE_RESOURCE_GROUP --name=$AZURE_CLUSTER_NAME
+  - ./scripts/az login --service-principal --username $AZURE_APP_ID --password $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
+  - ./scripts/az aks kubernetes install-cli
+  - ./scripts/az aks kubernetes get-credentials --resource-group=$AZURE_RESOURCE_GROUP --name=$AZURE_CLUSTER_NAME
 
 deploy:
   skip_cleanup: true
