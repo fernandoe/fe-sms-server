@@ -20,4 +20,4 @@ travis.test:
 	docker run --rm -it '${TRAVIS_REPO_SLUG}:${COMMIT}' pytest -s
 
 travis.deploy:
-	kubectl apply -f ./k8s/
+	/usr/local/bin/kubectl apply -f ./k8s/
