@@ -24,14 +24,17 @@ script:
 after_success:
   - docker push $TRAVIS_REPO_SLUG
 
-#before_deploy:
-#  on:
-#    branch: feature-enviar-mensagem
+before_deploy:
+  - alias az='docker run -it --rm -v ${HOME}:/root microsoft/azure-cli:2.0.31 /usr/local/bin/az'
+  - az login --service-principal --username $AZURE_APP_ID --password $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
+  - az aks kubernetes install-cli
+  - az aks kubernetes get-credentials --resource-group=$AZURE_RESOURCE_GROUP --name=$AZURE_CLUSTER_NAME
 
 deploy:
+  skip_cleanup: true
   provider: script
   script:
-    - kubectl apply -f deployment.yml
+    - make travis.deploy
   on:
     tags: true
     branch:
