@@ -24,13 +24,14 @@ script:
 after_success:
   - docker push $TRAVIS_REPO_SLUG
 
-before_deploy:
-  on:
-    branch: feature-enviar-mensagem
+#before_deploy:
+#  on:
+#    branch: feature-enviar-mensagem
 
 deploy:
   provider: script
-  script: kubectl apply -f deployment.yml
+  script:
+    - kubectl apply -f deployment.yml
   on:
     tags: true
     branch:
