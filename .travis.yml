@@ -14,15 +14,14 @@ before_install:
   - echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
 
 install:
-  - export REPO=fernandoe/fe-sms-server
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -f Dockerfile -t $REPO:$TAG .
-  - docker tag $REPO:$TAG $REPO:$COMMIT
+  - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TAG .
+  - docker tag $TRAVIS_REPO_SLUG:$TAG $TRAVIS_REPO_SLUG:$COMMIT
 
 script:
 
 after_success:
-  - docker push $REPO
+  - docker push $TRAVIS_REPO_SLUG
 
 before_deploy:
   on:
