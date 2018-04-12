@@ -24,7 +24,6 @@ class TestSMSService(TestCase):
         assert "HTTPStatusCode" in response["ResponseMetadata"]
         assert "RetryAttempts" in response["ResponseMetadata"]
 
-
     def test_send_message_with_invalid_number(self):
         telefone = TelefoneFactory(numero='999999')
         client = SMSService()
