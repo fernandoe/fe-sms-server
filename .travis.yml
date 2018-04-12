@@ -33,7 +33,7 @@ deploy:
   skip_cleanup: true
   provider: script
   script:
-    - make travis.deploy
+    - ./scripts/deploy.sh
   on:
     tags: true
     branch:
