@@ -24,11 +24,6 @@ script:
 after_success:
   - docker push $TRAVIS_REPO_SLUG
 
-before_deploy:
-  - ./scripts/az login --service-principal --username $AZURE_APP_ID --password $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-  - ./scripts/az aks install-cli
-  - ./scripts/az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CLUSTER_NAME
-
 deploy:
   skip_cleanup: true
   provider: script
