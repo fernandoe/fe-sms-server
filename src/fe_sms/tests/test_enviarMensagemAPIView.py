@@ -9,6 +9,7 @@ from fe_sms.models import Telefone, Mensagem, AWSMensagem
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
+
 example_data_1 = {
     'ddd': '51',
     'numero': '992832466',
