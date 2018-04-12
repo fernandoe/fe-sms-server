@@ -32,4 +32,8 @@ deploy:
   provider: script
   script: kubectl apply -f deployment.yml
   on:
-    branch: feature-enviar-mensagem
+    tags: true
+    branch:
+      - master
+      - feature-enviar-mensagem
+      - /(\d+\.)?(\d+\.)?(\*|\d+)$/
