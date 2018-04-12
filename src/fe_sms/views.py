@@ -15,8 +15,8 @@ class EnviarMensagemAPIView(APIView):
         mensagem_serializer = AWSMensagemSerializer(data=request.data)
         if telefone_serializer.is_valid() and mensagem_serializer.is_valid():
             telefone = telefone_serializer.save(usuario=usuario, entidade=entidade)
-            message = AWSMensagem.objects.create(usuario=usuario, entidade=entidade, telefone=telefone)
-            data = {'uuid': str(message.uuid)}
+            mensagem = mensagem_serializer.save(telefone=telefone, usuario=usuario, entidade=entidade)
+            data = {'uuid': str(mensagem.uuid)}
             return Response(data, status=status.HTTP_201_CREATED)
         else:
             errors = dict(mensagem_serializer.errors, **mensagem_serializer.errors)

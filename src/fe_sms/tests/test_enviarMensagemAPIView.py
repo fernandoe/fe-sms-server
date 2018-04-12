@@ -85,3 +85,8 @@ class TestEnviarMensagemAPIView(APITestCase):
         obj = Telefone.objects.first()
         assert not obj.entidade
         assert self.user == obj.usuario
+
+    def test_field_mensagem(self):
+        response = self.client.post(reverse('enviar-mensagem'), example_data_1)
+        obj = Mensagem.objects.get(pk=response.data['uuid'])
+        assert obj.mensagem == example_data_1['mensagem']
