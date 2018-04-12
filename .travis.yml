@@ -19,6 +19,7 @@ install:
   - docker tag $TRAVIS_REPO_SLUG:$TAG $TRAVIS_REPO_SLUG:$COMMIT
 
 script:
+  - make travis.test
 
 after_success:
   - docker push $TRAVIS_REPO_SLUG
