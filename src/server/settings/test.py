@@ -11,8 +11,6 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'services.backends.FEMicroservicesBackendTesting',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3,
+        'fe_jwt.backends.FEMicroservicesBackendTesting',
+    )
 }
