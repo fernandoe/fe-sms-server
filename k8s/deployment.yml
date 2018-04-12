@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: fe-sms
-        image: fernandoe/fe-sms-server:feature-enviar-mensagem
+        image: fernandoe/fe-sms-server:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8000

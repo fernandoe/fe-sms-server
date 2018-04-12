@@ -6,4 +6,4 @@
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 
-./kubectl apply -f ./k8s/
+./kubectl set image deployment/fe-sms fe-sms=${TRAVIS_REPO_SLUG}:${TRAVIS_TAG}
