@@ -17,4 +17,4 @@ docker.build:
 	docker build --no-cache -t fernandoe/fe-sms-server:latest .
 
 travis.test:
-	docker run --rm -it $TRAVIS_REPO_SLUG:$COMMIT pytest -s
+	docker run --rm -it '${TRAVIS_REPO_SLUG}:${COMMIT}' pytest -s
