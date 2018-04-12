@@ -44,8 +44,9 @@ class AWSMensagem(Mensagem):
         from fe_sms.services.sms_service_aws import SMSService
         if self.status != self.STATUS_CRIADO:
             print(f'Mensagem não enviada devido ao seus status={self.status}')
+            return
         service = SMSService()
-        response = service.send_message(self.telefone.__str__(), self.mensagem)
+        response = service.send_message(self.telefone.get_telefone(), self.mensagem)
         self.response = response
         self.message_identifier = response["MessageId"]
         self.request_identifier = response["ResponseMetadata"]["RequestId"]
