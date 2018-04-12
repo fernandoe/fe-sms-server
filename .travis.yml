@@ -10,16 +10,27 @@ env:
   - secure: P2mFM5Dnn5/VYbplnjfQT8/kuFXQn7c4ogT/syuxXoOF01LNLYAt0NQgDSKLbpSj9CUn0RwXhutOTWZkR/SXCUDpjlRuAWyUihOfvCEvpikk4hk04FoF/es5oe+wk4X8cnqIb1s8vvEcsVf0aY2jF+rbXuOKWJmfzH/im5NcUQ6/NrkWIH/6NNPg1wtsrePWotlGWgR2w37vpIqLIlB41Zg79k+IeKFlXevHIsAlBaM99aup74mK3NK8HEMCgTJX3qGVmnf50gq9i2+w70Y7QL4JHfwKlQdAzoOWEgBE+3MmsACAjE+Ap2cFqNNKZvw9xBLsRoGcadrRUFE5muPaqGfFrXXN5Cx2RoQHP3QkUFTBiVV/cA7SbH69NhAWxnor8blV+hFdf+1NGNoZ7nlAXk5uHxPCoEwHhGTkSBiP4hrjUw47rBsict6jTuPxb2E8hdqxgP+gqhvkXQXG4kSO/88Il8ltLDeJ2bBaxWav3UIWSfEWNbxt683B4k1znPthY4vtz/J6MSdbwd3i6QfuPJBUWq8Njx1LODP7iPIImMm/Ip8j6cD8DKfG3UKfZXWuAWC5pMdlOuJAIScx7ggJVUdtJT3204R/BeZtmNVueUp3+udnpJhF7vFcevzsq4nbV7HqRp82n1gewkUIYuEOhxUkR6OrYjiikZ5zvMpT/s8=
   - COMMIT=${TRAVIS_COMMIT::8}
 
-after_success:
+before_install:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+install:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=fernandoe/fe-sms-server
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -f Dockerfile -t $REPO:$TAG .
   - docker tag $REPO:$TAG $REPO:$COMMIT
+
+script:
+
+after_success:
   - docker push $REPO
+
+before_deploy:
+  on:
+    branch: feature-enviar-mensagem
 
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+  script: kubectl apply -f deployment.yml
   on:
-    branch: master
+    branch: feature-enviar-mensagem
