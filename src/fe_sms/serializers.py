@@ -12,4 +12,4 @@ class TelefoneModelSerializer(serializers.ModelSerializer):
 class AWSMensagemSerializer(serializers.ModelSerializer):
     class Meta:
         model = AWSMensagem
-        fields = ('telefone', 'mensagem')
+        fields = ('mensagem',)

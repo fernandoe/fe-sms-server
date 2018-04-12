@@ -13,6 +13,7 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 example_data_1 = {
     'ddd': '51',
     'numero': '992832466',
+    'mensagem': 'Mensagem de teste (UnitTest)!'
 }
 
 
