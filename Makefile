@@ -1,8 +1,8 @@
-build:
-	docker build -t fernandoe/fe-sms-server:local .
+TRAVIS_REPO_SLUG ?= fernandoe/fe-sms-server
+TAG ?= local
 
-docker-build:
-	docker build -t fernandoe/fe-sms-server:local .
+build:
+	docker build -t '${TRAVIS_REPO_SLUG}:${TAG}' .
 
 build-no-cache:
 	docker build --no-cache -t fernandoe/fe-sms-server:local .
